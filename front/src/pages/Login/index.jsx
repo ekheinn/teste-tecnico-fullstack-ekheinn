@@ -7,8 +7,9 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import router from '../../routes'
 import Header from '../../components/Header'
-// import { useState } from 'react'
-// import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import api from '../../services'
 
 export default function Login() {
 	const schema = yup.object().shape({
@@ -20,32 +21,24 @@ export default function Login() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	})
 
-	// const [days, setDays] = useState({ 1: 0, 15: 0, 30: 0, 90: 0 })
-	// const [apiError, setApiError] = useState(false)
-
 	const onSubmit = (data) => {
-		console.log(data)
-		router.navigate('/dashboard')
+		api
+			.post('/login', data)
+			.then((res) => {
+				localStorage.setItem('token', res.data.token)
+				router.navigate('/dashboard')
+				reset()
+			})
+			.catch((err) => {
+				toast.error('Email e/ou senha errados')
+			})
 	}
 
-	// const onSubmit = (data) => {
-	// 	axios
-	// 		.post('https://frontend-challenge-7bu3nxh76a-uc.a.run.app', data)
-	// 		.then((res) => {
-	// 			console.log(res)
-	// 			// setDays(res.data)
-	// 			// setApiError(false)
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err)
-	// 			// setDays({ 1: 0, 15: 0, 30: 0, 90: 0 })
-	// 			// setApiError(true)
-	// 		})
-	// }
 	return (
 		<Container>
 			<Header>
@@ -72,6 +65,7 @@ export default function Login() {
 					</div>
 				</form>
 			</PaperLogin>
+			<ToastContainer />
 		</Container>
 	)
 }

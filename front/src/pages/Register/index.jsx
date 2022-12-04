@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import router from '../../routes'
 import Header from '../../components/Header'
-// import { useState } from 'react'
-// import axios from 'axios'
+import api from '../../services'
+import { ToastContainer, toast } from 'react-toastify'
 
 export default function Register() {
 	const schema = yup.object().shape({
@@ -26,32 +26,30 @@ export default function Register() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	})
 
-	// const [days, setDays] = useState({ 1: 0, 15: 0, 30: 0, 90: 0 })
-	// const [apiError, setApiError] = useState(false)
-
 	const onSubmit = (data) => {
-		console.log(data)
-		router.navigate('/login')
+		api
+			.post('/users', data)
+			.then((res) => {
+				toast.success('Registrado com sucesso!', { autoClose: 2000 })
+				setTimeout(() => {
+					router.navigate('/login')
+				}, 3000)
+				reset()
+			})
+			.catch((err) => {
+				if (err.response.data.message === 'User already exists') {
+					toast.error('Email já cadastrado.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
+			})
 	}
 
-	// const onSubmit = (data) => {
-	// 	axios
-	// 		.post('https://frontend-challenge-7bu3nxh76a-uc.a.run.app', data)
-	// 		.then((res) => {
-	// 			console.log(res)
-	// 			// setDays(res.data)
-	// 			// setApiError(false)
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err)
-	// 			// setDays({ 1: 0, 15: 0, 30: 0, 90: 0 })
-	// 			// setApiError(true)
-	// 		})
-	// }
 	return (
 		<Container>
 			<Header>
@@ -88,12 +86,13 @@ export default function Register() {
 					<p className="error">{errors.confPass?.message}</p>
 
 					<div>
-						<button type="submit">Entrar</button>
+						<button type="submit">Registrar</button>
 
 						<Link to="/login">Já tem conta? Faça o login</Link>
 					</div>
 				</form>
 			</PaperRegister>
+			<ToastContainer />
 		</Container>
 	)
 }

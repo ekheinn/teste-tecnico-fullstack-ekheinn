@@ -1,7 +1,7 @@
 export interface IContactRequest {
 	name: string
 	email: string
-	phone: number
+	phone: string
 	userId: number
 }
 
@@ -10,5 +10,5 @@ export interface IContactUpdate {
 	contactId: number
 	name: string
 	email: string
-	phone: number
+	phone: string
 }

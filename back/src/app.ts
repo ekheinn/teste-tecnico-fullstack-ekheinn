@@ -4,12 +4,21 @@ import { Request, Response } from 'express'
 import { errorMiddleware } from './middlewares/error.middleware'
 import AppError from './errors/appError'
 import 'express-async-errors'
+import cors from 'cors'
 
 require('dotenv').config()
 
 const app = express()
 
 app.use(express.json())
+
+app.use(cors())
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	credentials: true,
+	optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 
 app.get('/test', (req: Request, res: Response) => {
 	res.status(200).json({

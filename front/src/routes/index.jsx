@@ -15,14 +15,17 @@ const router = createBrowserRouter([
 	{
 		path: '/register',
 		element: <Register />,
+		errorElement: <PageError />,
 	},
 	{
 		path: '/login',
 		element: <Login />,
+		errorElement: <PageError />,
 	},
 	{
 		path: '/dashboard',
 		element: <Dashboard />,
+		errorElement: <PageError />,
 	},
 ])
 

@@ -27,7 +27,7 @@ export class Users {
 	password: string
 
 	@Column()
-	phone: number
+	phone: string
 
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date

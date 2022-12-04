@@ -4,18 +4,65 @@ import styled from 'styled-components'
 export const PaperDashboard = styled(Paper)`
 	display: flex;
 	flex-direction: column;
+	justify-content: left;
 	gap: 15px;
+	font-size: 2vh;
 
-	min-width: 200px;
-	min-height: 340px;
-	width: 15vw;
-	height: 30vh;
+	.navF {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.addC {
+		border: none;
+		width: fit-content;
+		padding: 5px;
+		border-radius: 10px;
+		background-color: ${theme.brand1};
+		cursor: pointer;
+	}
+	button:hover {
+		filter: brightness(0.8);
+	}
+
+	.btn {
+		display: flex;
+		justify-content: flex-end;
+		border: none;
+		background: none;
+	}
+	.btnC {
+		border: none;
+		background: none;
+		cursor: pointer;
+	}
+	.btnC:hover {
+		color: #cc0000;
+	}
+
+	.btnEx {
+		border: none;
+		background: none;
+		cursor: pointer;
+	}
+	.btnEx:hover {
+		color: #cc0000;
+	}
+	.btnEd {
+		border: none;
+		background: none;
+		cursor: pointer;
+	}
+	.btnEd:hover {
+		color: #eded84;
+	}
 
 	h1 {
 		margin: 10px;
 	}
-	h2 {
-		font-size: 15px;
+	h3 {
+		/* font-size: 15px; */
 		margin: 5px;
 	}
 
@@ -54,6 +101,10 @@ export const PaperDashboard = styled(Paper)`
 			border: none;
 			border-radius: 5px;
 			background-color: ${theme.brand1};
+			cursor: pointer;
+		}
+		button:hover {
+			filter: brightness(0.8);
 		}
 
 		a {
@@ -66,6 +117,30 @@ export const PaperDashboard = styled(Paper)`
 			color: ${theme.error};
 			width: fit-content;
 			border-radius: 5px;
+		}
+	}
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		li {
+			font-size: 1.8vh;
+			padding: 5px;
+			margin: 10px;
+			border: 2px solid ${theme.grey3};
+			border-radius: 10px;
+			background: ${theme.grey4};
+			p {
+				font-weight: 600;
+				display: flex;
+				justify-content: space-between;
+				margin: 0;
+				padding: 2px;
+			}
+		}
+		span {
+			font-weight: 100;
 		}
 	}
 `

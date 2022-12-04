@@ -13,7 +13,7 @@ export class Contacts {
 	email: string
 
 	@Column()
-	phone: number
+	phone: string
 
 	@ManyToOne((type) => Users, (user) => user.contacts, {
 		onDelete: 'SET NULL',
