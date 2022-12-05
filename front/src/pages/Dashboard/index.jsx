@@ -15,6 +15,8 @@ import jwt_decode from 'jwt-decode'
 import { SlClose } from 'react-icons/sl'
 import { IoMdPersonAdd } from 'react-icons/io'
 import { BiEdit } from 'react-icons/bi'
+import { BsFillGearFill } from 'react-icons/bs'
+import router from '../../routes'
 
 export default function Dashboard() {
 	const token = localStorage.getItem('token')
@@ -22,10 +24,11 @@ export default function Dashboard() {
 
 	const [openModalAdd, setOpenModalAdd] = useState(false)
 	const [openModalEdit, setOpenModalEdit] = useState(false)
+	const [verify, setVerify] = useState(false)
+	const [openModalConfig, setOpenModalConfig] = useState(false)
 
 	const [user, setUser] = useState({})
 	const [contacts, setContacts] = useState([])
-
 	const [nameEdit, setNameEdit] = useState('')
 	const [emailEdit, setEmailEdit] = useState('')
 	const [phoneEdit, setPhoneEdit] = useState('')
@@ -56,7 +59,7 @@ export default function Dashboard() {
 			.catch((err) => {
 				toast.error('Algo deu errado...')
 			})
-	}, [decoded.id, token, openModalAdd, contacts])
+	}, [decoded.id, token, openModalAdd, verify])
 
 	const schema = yup.object().shape({
 		name: yup.string().required('Obrigatorio*'),
@@ -86,6 +89,20 @@ export default function Dashboard() {
 		resolver: yupResolver(schemaEdit),
 	})
 
+	const schemaConfig = yup.object().shape({
+		emailConfig: yup.string(),
+		nameConfig: yup.string(),
+		phoneConfig: yup.string(),
+	})
+	const {
+		register: registerConfig,
+		handleSubmit: handleSubmitConfig,
+		formState: { errors: errorsConfig },
+		reset: resetConfig,
+	} = useForm({
+		resolver: yupResolver(schemaConfig),
+	})
+
 	const onSubmit = (data) => {
 		api
 			.post(
@@ -107,7 +124,6 @@ export default function Dashboard() {
 				reset()
 			})
 			.catch((err) => {
-				console.log(err)
 				if (err.response.data.message === 'Contact already exists') {
 					toast.error('Contato já cadastrado.')
 				} else {
@@ -125,7 +141,26 @@ export default function Dashboard() {
 			})
 			.then((res) => {
 				toast.success('Contato excluido!', { autoClose: 2000 })
-				setOpenModalAdd(false)
+				if (verify === false) {
+					setVerify(true)
+				} else {
+					setVerify(false)
+				}
+			})
+			.catch((err) => {
+				toast.error('Algo deu errado...')
+			})
+	}
+
+	const excludeUser = () => {
+		api
+			.delete(`/users`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				router.navigate('/')
 			})
 			.catch((err) => {
 				toast.error('Algo deu errado...')
@@ -153,9 +188,44 @@ export default function Dashboard() {
 				toast.success('Contato editado!', { autoClose: 2000 })
 				setOpenModalEdit(false)
 				resetEdit()
+				if (verify === false) {
+					setVerify(true)
+				} else {
+					setVerify(false)
+				}
 			})
 			.catch((err) => {
-				console.log(err)
+				toast.error('Algo deu errado...')
+			})
+	}
+
+	const configEdit = (data) => {
+		api
+			.patch(
+				`/users`,
+				{
+					name: data.nameConfig,
+					email: data.emailConfig,
+					phone: data.phoneConfig,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then((res) => {
+				toast.success('Usuário editado!', { autoClose: 2000 })
+				setOpenModalEdit(false)
+				resetConfig()
+				setOpenModalConfig(false)
+				if (verify === false) {
+					setVerify(true)
+				} else {
+					setVerify(false)
+				}
+			})
+			.catch((err) => {
 				toast.error('Algo deu errado...')
 			})
 	}
@@ -214,7 +284,7 @@ export default function Dashboard() {
 								defaultValue={emailEdit}
 								{...registerEdit('emailEdit')}
 							/>
-							<p className="error">{errors.emailEdit?.message}</p>
+							<p className="error">{errorsEdit.emailEdit?.message}</p>
 
 							<label>Telefone</label>
 							<input
@@ -222,9 +292,57 @@ export default function Dashboard() {
 								defaultValue={phoneEdit}
 								{...registerEdit('phoneEdit')}
 							/>
-							<p className="error">{errors.phoneEdit?.message}</p>
+							<p className="error">{errorsEdit.phoneEdit?.message}</p>
 							<button type="submit">Editar</button>
 						</form>
+					</PaperDashboard>
+				</CreateModal>
+			) : (
+				<></>
+			)}
+			{openModalConfig ? (
+				<CreateModal>
+					<PaperDashboard>
+						<div className="btn">
+							<h3>Configurações de Usuário</h3>
+							<button
+								onClick={() => setOpenModalConfig(false)}
+								className="btnC"
+							>
+								<SlClose size="2em" />
+							</button>
+						</div>
+						<form onSubmit={handleSubmitConfig(configEdit)}>
+							<label>Nome completo</label>
+							<input
+								type="text"
+								defaultValue={user.name}
+								{...registerConfig('nameConfig')}
+							/>
+							<p className="error">{errorsConfig.nameConfig?.message}</p>
+
+							<label>Email</label>
+							<input
+								type="email"
+								defaultValue={user.email}
+								{...registerConfig('emailConfig')}
+							/>
+							<p className="error">{errorsConfig.emailConfig?.message}</p>
+
+							<label>Telefone</label>
+							<input
+								type="tel"
+								defaultValue={user.phone}
+								{...registerConfig('phoneConfig')}
+							/>
+							<p className="error">{errorsConfig.phoneConfig?.message}</p>
+
+							<button type="submit">Editar usuário</button>
+						</form>
+						<button onClick={() => excludeUser()} className="btnEx">
+							<SlClose size="1em" />
+							{'  '}Excluir usuário
+						</button>
 					</PaperDashboard>
 				</CreateModal>
 			) : (
@@ -238,10 +356,14 @@ export default function Dashboard() {
 				</Header>
 				<PaperDashboard>
 					<h1>Bem-vindo de volta {user.name}!</h1>
+					<button onClick={() => setOpenModalConfig(true)} className="config">
+						Configurações de Usuário <BsFillGearFill />
+					</button>
 					<div className="navF">
-						<h3>Seus contatos - </h3>
+						<h3>Seus contatos </h3>
 						<button onClick={() => setOpenModalAdd(true)} className="addC">
-							Adicionar <IoMdPersonAdd />
+							Adicionar
+							<IoMdPersonAdd />
 						</button>
 					</div>
 					<ul>

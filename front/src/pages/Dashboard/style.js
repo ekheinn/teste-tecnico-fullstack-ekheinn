@@ -4,9 +4,22 @@ import styled from 'styled-components'
 export const PaperDashboard = styled(Paper)`
 	display: flex;
 	flex-direction: column;
-	justify-content: left;
+	align-items: center;
 	gap: 15px;
 	font-size: 2vh;
+
+	.config {
+		border: none;
+		width: fit-content;
+		padding: 5px;
+		border-radius: 5px;
+		background-color: ${theme.grey3};
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+	}
 
 	.navF {
 		display: flex;
@@ -21,6 +34,10 @@ export const PaperDashboard = styled(Paper)`
 		border-radius: 10px;
 		background-color: ${theme.brand1};
 		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
 	}
 	button:hover {
 		filter: brightness(0.8);

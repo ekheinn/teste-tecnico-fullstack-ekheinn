@@ -6,6 +6,16 @@ export const PaperHome = styled(Paper)`
 	flex-direction: column;
 	gap: 2vw;
 
+	h1 {
+		margin: 0;
+	}
+
+	img {
+		width: 20vw;
+		min-width: 200px;
+		max-width: 300px;
+	}
+
 	.login {
 		background: ${theme.brand1};
 		color: black;

@@ -20,17 +20,19 @@ const createContactsService = async ({
 		throw new AppError(400, 'Phone is a required field')
 	}
 
+	const userRepository = AppDataSource.getRepository(Users)
+	const user = await userRepository.findOne({ where: { id: userId } })
+	if (!user) throw new AppError(404, 'User not found')
+
 	const contactAlreadyExists = await contactRepository.findOne({
-		where: { email: email },
+		relations: ['user'],
+		where: { email: email, user: user },
 	})
+	console.log(contactAlreadyExists)
 
 	if (contactAlreadyExists) {
 		throw new AppError(401, 'Contact already exists')
 	}
-
-	const userRepository = AppDataSource.getRepository(Users)
-	const user = await userRepository.findOne({ where: { id: userId } })
-	if (!user) throw new AppError(404, 'User not found')
 
 	const contact = contactRepository.create({
 		name,
