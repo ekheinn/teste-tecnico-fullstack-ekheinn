@@ -14,7 +14,7 @@ app.use(express.json())
 
 app.use(cors())
 const corsOptions = {
-	origin: 'http://localhost:3000',
+	origin: 'http://localhost:3001',
 	credentials: true,
 	optionSuccessStatus: 200,
 }
@@ -33,6 +33,4 @@ app.get('/error', (req: Request, res: Response) => {
 appRoutes(app)
 app.use(errorMiddleware)
 
-app.listen(process.env.PORT, () =>
-	console.log(`Server running at localhost:${process.env.PORT}`),
-)
+app.listen(3001, () => console.log(`Server running at localhost:3001`))
