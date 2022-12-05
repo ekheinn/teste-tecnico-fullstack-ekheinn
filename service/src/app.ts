@@ -14,7 +14,7 @@ app.use(express.json())
 
 app.use(cors())
 const corsOptions = {
-	origin: 'http://localhost:3001',
+	origin: 'https://client-fullstack-test-enl7jiny8-ekheinn.vercel.app',
 	credentials: true,
 	optionSuccessStatus: 200,
 }
