@@ -22,7 +22,27 @@ Este teste consiste em criar um pequeno cadastro de clientes com vínculo de con
 
 <br/>
 
-## Instalação e execução em ambientes de desenvolvimento da API
+## Instalação e execução em ambientes de desenvolvimento **(FRONT END)**
+
+### Abra no diretório da aplicação web
+
+```
+teste-tecnico-fullstack-ekheinn\client\
+```
+
+### Instale as dependências
+
+```
+yarn
+```
+
+### Rode a aplicação
+
+```
+yarn start
+```
+
+## Instalação e execução em ambientes de desenvolvimento da API **(BACK END)**
 
 ### Abra no diretório da API
 
@@ -72,6 +92,7 @@ yarn dev
 ## Base URL | **FrontEnd**
 
 > https://client-fullstack-test-enl7jiny8-ekheinn.vercel.app/
+> localhost:3000 (yarn start)
 
 ## Base URL | **BackEnd**
 
