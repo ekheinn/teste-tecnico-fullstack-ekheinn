@@ -35,7 +35,11 @@ export default function Login() {
 				reset()
 			})
 			.catch((err) => {
-				toast.error('Email e/ou senha errados')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Email e/ou senha errados')
+				}
 			})
 	}
 

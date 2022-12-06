@@ -44,7 +44,11 @@ export default function Dashboard() {
 				setUser(res.data.filter((user) => user.id === decoded.id)[0])
 			})
 			.catch((err) => {
-				toast.error('Algo deu errado...')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
 			})
 
 		api
@@ -57,7 +61,11 @@ export default function Dashboard() {
 				setContacts(res.data)
 			})
 			.catch((err) => {
-				toast.error('Algo deu errado...')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
 			})
 	}, [decoded.id, token, openModalAdd, verify])
 
@@ -124,10 +132,10 @@ export default function Dashboard() {
 				reset()
 			})
 			.catch((err) => {
-				if (err.response.data.message === 'Contact already exists') {
-					toast.error('Contato já cadastrado.')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
 				} else {
-					toast.error('Algo deu errado...')
+					toast.error('Contato já cadastrado.')
 				}
 			})
 	}
@@ -148,7 +156,11 @@ export default function Dashboard() {
 				}
 			})
 			.catch((err) => {
-				toast.error('Algo deu errado...')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
 			})
 	}
 
@@ -163,7 +175,11 @@ export default function Dashboard() {
 				router.navigate('/')
 			})
 			.catch((err) => {
-				toast.error('Algo deu errado...')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
 			})
 	}
 
@@ -195,7 +211,11 @@ export default function Dashboard() {
 				}
 			})
 			.catch((err) => {
-				toast.error('Algo deu errado...')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
 			})
 	}
 
@@ -226,7 +246,11 @@ export default function Dashboard() {
 				}
 			})
 			.catch((err) => {
-				toast.error('Algo deu errado...')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
+				} else {
+					toast.error('Algo deu errado...')
+				}
 			})
 	}
 

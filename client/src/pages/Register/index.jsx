@@ -42,10 +42,10 @@ export default function Register() {
 				reset()
 			})
 			.catch((err) => {
-				if (err.response.data.message === 'User already exists') {
-					toast.error('Email já cadastrado.')
+				if (err.message === 'Network Error') {
+					toast.error('Erro no servidor... tente novamente mais tarde.')
 				} else {
-					toast.error('Algo deu errado...')
+					toast.error('Email já cadastrado.')
 				}
 			})
 	}
