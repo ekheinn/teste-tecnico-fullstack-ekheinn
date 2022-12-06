@@ -92,6 +92,7 @@ yarn dev
 ## Base URL | **FrontEnd**
 
 > https://client-fullstack-test-ekheinn.vercel.app/
+
 > localhost:3000 (yarn start)
 
 ## Base URL | **BackEnd**
