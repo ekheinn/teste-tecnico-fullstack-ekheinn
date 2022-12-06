@@ -15,7 +15,8 @@ app.use(express.json())
 app.use(cors())
 const corsOptions = {
 	origin: [
-		'https://client-fullstack-test-enl7jiny8-ekheinn.vercel.app',
+		'https://client-fullstack-test.vercel.app',
+		'https://client-fullstack-test-ekheinn.vercel.app/',
 		'http://localhost:3000',
 	],
 	default: 'https://client-fullstack-test-enl7jiny8-ekheinn.vercel.app',
